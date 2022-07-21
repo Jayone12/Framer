@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
 import { useEffect } from "react";
 
 const Wrapper = styled(motion.div)`
-  height: 100vh;
+  height: 200vh;
   width: 100vw;
   display: flex;
   justify-content: center;
@@ -18,14 +18,6 @@ const Box = styled(motion.div)`
   border-radius: 40px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 `;
-
-// Variants는 복잡한 애니메이션을 선언하여 조정하는 방법이다.
-// 동일한 이름의 시각적 상태를 가진 Variants 객체를 여러 구성 요소에 제공하여 단일 애니메이션 소품의 스위치로 동기화가 가능
-const boxVariants = {
-  hover: { scale: 1.5, rotateZ: 90 },
-  click: { scale: 1, borderRadius: "100px" },
-  drag: { backgroundColor: "rgba(46, 204, 113)", transition: { duration: 1 } },
-};
 
 function App() {
   // x값을 저장하며, x값이 바뀌어도 리렌더링하지 않는다.
@@ -43,6 +35,16 @@ function App() {
     ]
   );
 
+  // 브라우저의 스크롤 값은 0에서 1의 범위로 출력
+  const { scrollYProgress } = useScroll();
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 3]);
+
+  // useEffect(() => {
+  //   scrollY.onChange(() => {
+  //     console.log(scrollY.get(), scrollYProgress.get());
+  //   });
+  // }, [scrollY, scrollYProgress]);
+
   // useEffect(() => {
   // x.onChange(() => console.log(x.get()));
   //   rotateZ.onChange(() => console.log(rotateZ.get()));
@@ -50,7 +52,7 @@ function App() {
 
   return (
     <Wrapper style={{ background: gradient }}>
-      <Box style={{ x, rotateZ }} drag="x" dragSnapToOrigin />
+      <Box style={{ x, rotateZ, scale }} drag="x" dragSnapToOrigin />
     </Wrapper>
   );
 }
