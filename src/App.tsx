@@ -12,22 +12,64 @@ const Wrapper = styled.div`
 const Box = styled(motion.div)`
   width: 200px;
   height: 200px;
-  background-color: white;
-  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 40px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 `;
+
+const Circle = styled(motion.div)`
+  background-color: white;
+  height: 70px;
+  width: 70px;
+  place-self: center;
+  border-radius: 35px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+`;
+
+// Variants는 복잡한 애니메이션을 선언하여 조정하는 방법이다.
+// 동일한 이름의 시각적 상태를 가진 Variants 객체를 여러 구성 요소에 제공하여 단일 애니메이션 소품의 스위치로 동기화가 가능
+const boxVariants = {
+  start: {
+    opacity: 0,
+    scale: 0.5,
+  },
+  end: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      type: "spring",
+      duration: 0.5,
+      bounce: 0.5,
+      // 자식 요소의 delay를 지정한다.
+      delayChildren: 0.5,
+      // 자식 요소의 수만큼 순차적으로 진행하게 된다.
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const circleVariants = {
+  start: {
+    opacity: 0,
+    y: 10,
+  },
+  end: {
+    opacity: 1,
+    y: 0,
+  },
+};
 
 function App() {
   return (
     <Wrapper>
-      <Box
-        // 해당 Element의 초기 값 지정
-        initial={{ scale: 0 }}
-        // 원하는 animation 효과 지정
-        animate={{ scale: 1, rotateZ: 360 }}
-        // animation 실행 떄 움직이는 효과 지정
-        transition={{ type: "spring", mass: 5 }}
-      />
+      <Box variants={boxVariants} initial="start" animate="end">
+        <Circle variants={circleVariants} />
+        <Circle variants={circleVariants} />
+        <Circle variants={circleVariants} />
+        <Circle variants={circleVariants} />
+      </Box>
     </Wrapper>
   );
 }
