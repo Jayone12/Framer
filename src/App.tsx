@@ -44,6 +44,7 @@ function App() {
   return (
     <Wrapper>
       <button onClick={toggleShowing}>Click</button>
+      {/* 제거된 구성요소의 애니메이션을 활성화한다. */}
       <AnimatePresence>
         {showing ? (
           <Box
