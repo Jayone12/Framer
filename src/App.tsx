@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -8,7 +9,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Box = styled.div`
+const Box = styled(motion.div)`
   width: 200px;
   height: 200px;
   background-color: white;
@@ -19,7 +20,14 @@ const Box = styled.div`
 function App() {
   return (
     <Wrapper>
-      <Box />
+      <Box
+        // 해당 Element의 초기 값 지정
+        initial={{ scale: 0 }}
+        // 원하는 animation 효과 지정
+        animate={{ scale: 1, rotateZ: 360 }}
+        // animation 실행 떄 움직이는 효과 지정
+        transition={{ type: "spring", mass: 5 }}
+      />
     </Wrapper>
   );
 }
